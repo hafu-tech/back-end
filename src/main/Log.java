@@ -22,7 +22,7 @@ public class Log {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, 'Dia 'dd 'de' MMMM 'de 'yyyy 'às' HH:mm:ss ");
             String dataHoraFormatada = dataHora.format(formatter);
             if (!arquivo.contains(".")){
-                System.out.println(ANSI_RED + arquivo + " não é um arquivo" + ANSI_RESET);
+                System.out.println(ANSI_RED + arquivo + " não é um arquivo " + dataHoraFormatada + ANSI_RESET);
             }
             else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
                 System.out.println(ANSI_GREEN + "O arquivo " + arquivo + " foi adicionado " + dataHoraFormatada + ANSI_RESET);
