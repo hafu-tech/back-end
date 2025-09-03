@@ -19,15 +19,15 @@ public class Log {
             String arquivo = in.next();
 
             LocalDateTime dataHora = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, 'Dia 'dd 'de' MMMM 'de 'yyyy 'às' HH:mm:ss ");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss");
             String dataHoraFormatada = dataHora.format(formatter);
             if (!arquivo.contains(".")){
-                System.out.println(ANSI_RED + arquivo + " não é um arquivo " + dataHoraFormatada + ANSI_RESET);
+                System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
             }
             else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
-                System.out.println(ANSI_GREEN + "O arquivo " + arquivo + " foi adicionado " + dataHoraFormatada + ANSI_RESET);
+                System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
             } else {
-                System.out.println(ANSI_YELLOW + "O arquivo " + arquivo + " enviado " + dataHoraFormatada + "é um arquivo inválido" + ANSI_RESET);
+                System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
             }
 
             System.out.println("Quer inserir outro arquivo? (s/n)");
