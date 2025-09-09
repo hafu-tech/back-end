@@ -3,6 +3,8 @@ package main;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Log {
     public static final String ANSI_RED = "\u001B[31m";
@@ -12,31 +14,72 @@ public class Log {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        boolean continuar = true;
+        List<String> arquivosHoje = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss");
 
-        while (continuar) {
-            System.out.println("Insira o arquivo:");
-            String arquivo = in.next();
+        boolean executando = true;
 
-            LocalDateTime dataHora = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss");
-            String dataHoraFormatada = dataHora.format(formatter);
-            if (!arquivo.contains(".")){
-                System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
-            }
-            else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
-                System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
-            } else {
-                System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
-            }
+        while (executando) {
+            System.out.println("\n=== MENU - HAFUTECH ===");
+            System.out.println("1 - Inserir arquivo");
+            System.out.println("2 - Ver arquivos adicionados hoje");
+            System.out.println("3 - Sair");
+            System.out.print("Escolha uma opção: ");
+            int opcao = in.nextInt();
+            in.nextLine();
 
-            System.out.println("Quer inserir outro arquivo? (s/n)");
-            String resposta = in.next();
+            switch (opcao) {
+                case 1:
 
-            if (resposta.equals("n")) {
-                continuar = false;
-                System.out.println("Encerrando programa...");
+                    boolean continuarInserindo = true;
+
+                    while (continuarInserindo) {
+                        System.out.print("Insira o nome do arquivo: ");
+                        String arquivo = in.nextLine();
+
+                        LocalDateTime dataHora = LocalDateTime.now();
+                        String dataHoraFormatada = dataHora.format(formatter);
+
+                        if (!arquivo.contains(".")) {
+                            System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
+                        } else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
+                            System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
+                            arquivosHoje.add(arquivo + " , " + dataHoraFormatada);
+                        } else {
+                            System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
+                        }
+
+                        System.out.print("Quer inserir outro arquivo? (s/n): ");
+                        String resposta = in.nextLine();
+                        if (resposta.equalsIgnoreCase("n")) {
+                            continuarInserindo = false;
+                        }
+                    }
+                    break;
+
+                case 2:
+
+                    System.out.println("\nArquivos adicionados hoje:");
+                    if (arquivosHoje.isEmpty()) {
+                        System.out.println("Nenhum arquivo foi adicionado hoje.");
+                    } else {
+                        for (int i = 0; i < arquivosHoje.size(); i++) {
+                            System.out.println("- " + arquivosHoje.get(i));
+                        }
+                    }
+                    break;
+
+                case 3:
+
+                    System.out.println("Encerrando o programa...");
+                    executando = false;
+                    break;
+
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
             }
         }
+
+
     }
 }
