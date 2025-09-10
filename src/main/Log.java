@@ -25,61 +25,69 @@ public class Log {
             System.out.println("2 - Ver arquivos adicionados hoje");
             System.out.println("3 - Sair");
             System.out.print("Escolha uma opção: ");
-            int opcao = in.nextInt();
-            in.nextLine();
 
-            switch (opcao) {
-                case 1:
+            if (in.hasNextInt()) {
+                int opcao = in.nextInt();
+                in.nextLine();
 
-                    boolean continuarInserindo = true;
+                switch (opcao) {
+                    case 1:
+                        boolean continuarInserindo = true;
 
-                    while (continuarInserindo) {
-                        System.out.print("Insira o nome do arquivo: ");
-                        String arquivo = in.nextLine();
+                        while (continuarInserindo) {
+                            System.out.print("Insira o nome do arquivo: ");
+                            String arquivo = in.nextLine();
 
-                        LocalDateTime dataHora = LocalDateTime.now();
-                        String dataHoraFormatada = dataHora.format(formatter);
+                            LocalDateTime dataHora = LocalDateTime.now();
+                            String dataHoraFormatada = dataHora.format(formatter);
 
-                        if (!arquivo.contains(".")) {
-                            System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
-                        } else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
-                            System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
-                            arquivosHoje.add(arquivo + " , " + dataHoraFormatada);
+                            if (!arquivo.contains(".")) {
+                                System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
+                            } else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
+                                System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
+                                arquivosHoje.add(arquivo + " , " + dataHoraFormatada);
+                            } else {
+                                System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
+                            }
+
+                            while (true) {
+                                System.out.print("Quer inserir outro arquivo? (s/n): ");
+                                String resposta = in.nextLine();
+                                if (resposta.equalsIgnoreCase("n")) {
+                                    continuarInserindo = false;
+                                    break;
+                                } else if (resposta.equalsIgnoreCase("s")) {
+                                    break;
+                                } else {
+                                    System.out.println("Resposta inválida! Digite apenas 's' ou 'n'.");
+                                }
+                            }
+                        }
+                        break;
+
+                    case 2:
+                        System.out.println("\nArquivos adicionados hoje:");
+                        if (arquivosHoje.isEmpty()) {
+                            System.out.println("Nenhum arquivo foi adicionado hoje.");
                         } else {
-                            System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
+                            for (int i = 0; i < arquivosHoje.size(); i++) {
+                                System.out.println("- " + arquivosHoje.get(i));
+                            }
                         }
+                        break;
 
-                        System.out.print("Quer inserir outro arquivo? (s/n): ");
-                        String resposta = in.nextLine();
-                        if (resposta.equalsIgnoreCase("n")) {
-                            continuarInserindo = false;
-                        }
-                    }
-                    break;
+                    case 3:
+                        System.out.println("Encerrando o programa...");
+                        executando = false;
+                        break;
 
-                case 2:
-
-                    System.out.println("\nArquivos adicionados hoje:");
-                    if (arquivosHoje.isEmpty()) {
-                        System.out.println("Nenhum arquivo foi adicionado hoje.");
-                    } else {
-                        for (int i = 0; i < arquivosHoje.size(); i++) {
-                            System.out.println("- " + arquivosHoje.get(i));
-                        }
-                    }
-                    break;
-
-                case 3:
-
-                    System.out.println("Encerrando o programa...");
-                    executando = false;
-                    break;
-
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                }
+            } else {
+                System.out.println("Opção inválida! Digite apenas números.");
+                in.nextLine();
             }
         }
-
-
     }
 }
