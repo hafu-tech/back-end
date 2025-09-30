@@ -1,7 +1,8 @@
 package school.sptech;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +10,12 @@ import java.util.List;
 public class Main {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         List<String> arquivosHoje = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss");
-
         boolean executando = true;
+        DAO dao = new DAO();
 
         while (executando) {
             System.out.println("\n=== MENU - HAFUTECH ===");
@@ -35,19 +33,23 @@ public class Main {
                         boolean continuarInserindo = true;
 
                         while (continuarInserindo) {
-                            System.out.print("Insira o nome do arquivo: ");
-                            String arquivo = in.nextLine();
+                            System.out.print("Digite o nome do arquivo: ");
+                            String nomeArquivo = in.nextLine();
 
-                            LocalDateTime dataHora = LocalDateTime.now();
-                            String dataHoraFormatada = dataHora.format(formatter);
+                            try {
+                                Path caminho = Path.of(nomeArquivo);
+                                InputStream arquivo = Files.newInputStream(caminho);
 
-                            if (!arquivo.contains(".")) {
-                                System.out.println(ANSI_RED + dataHoraFormatada + " - ERRO: " + arquivo + " não é um arquivo. " + ANSI_RESET);
-                            } else if (arquivo.endsWith(".xlsx") || arquivo.endsWith(".xls") || arquivo.endsWith(".csv")) {
-                                System.out.println(ANSI_GREEN + dataHoraFormatada + " - SUCESSO: O arquivo " + arquivo + " foi adicionado com sucesso." + ANSI_RESET);
-                                arquivosHoje.add(arquivo + " , " + dataHoraFormatada);
-                            } else {
-                                System.out.println(ANSI_YELLOW + dataHoraFormatada + " - AVISO: O arquivo " + arquivo + " enviado é um arquivo inválido. " + ANSI_RESET);
+                                LeitorExcel leitorExcel = new LeitorExcel();
+                                List<Escola> escolasExtraidas = leitorExcel.extrairEscolas(nomeArquivo, arquivo);
+
+                                arquivo.close();
+                                dao.salvarLista(escolasExtraidas);
+                                arquivosHoje.add(nomeArquivo);
+                                System.out.println("Dados adicionados no banco!");
+
+                            } catch (Exception e) {
+                                System.out.println(ANSI_RED + "Erro ao processar o arquivo: " + e.getMessage() + ANSI_RESET);
                             }
 
                             while (true) {
@@ -58,8 +60,6 @@ public class Main {
                                     break;
                                 } else if (resposta.equalsIgnoreCase("s")) {
                                     break;
-                                } else {
-                                    System.out.println("Resposta inválida! Digite apenas 's' ou 'n'.");
                                 }
                             }
                         }
@@ -70,8 +70,8 @@ public class Main {
                         if (arquivosHoje.isEmpty()) {
                             System.out.println("Nenhum arquivo foi adicionado hoje.");
                         } else {
-                            for (int i = 0; i < arquivosHoje.size(); i++) {
-                                System.out.println("- " + arquivosHoje.get(i));
+                            for (String arquivoHoje : arquivosHoje) {
+                                System.out.println("- " + arquivoHoje);
                             }
                         }
                         break;
@@ -89,5 +89,6 @@ public class Main {
                 in.nextLine();
             }
         }
+        in.close();
     }
 }
