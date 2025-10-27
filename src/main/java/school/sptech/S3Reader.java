@@ -1,6 +1,5 @@
 package school.sptech;
 
-import school.sptech.S3Provider;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 

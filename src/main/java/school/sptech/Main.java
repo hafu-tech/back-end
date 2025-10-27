@@ -39,7 +39,7 @@ public class Main {
                             try {
                                 String caminho = nomeArquivo;
                                 S3Reader s3 = new S3Reader();
-                                InputStream arquivo = s3.getFileFromS3("s3-hafu-bucket", caminho);
+                                InputStream arquivo = s3.getFileFromS3("s3-hafutech-bucket", caminho);
 
 
                                 LeitorExcel leitorExcel = new LeitorExcel();
@@ -52,6 +52,7 @@ public class Main {
 
                             } catch (Exception e) {
                                 System.out.println(ANSI_RED + "Erro ao processar o arquivo: " + e.getMessage() + ANSI_RESET);
+
                             }
 
                             while (true) {
