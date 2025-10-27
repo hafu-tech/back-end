@@ -37,8 +37,10 @@ public class Main {
                             String nomeArquivo = in.nextLine();
 
                             try {
-                                Path caminho = Path.of(nomeArquivo);
-                                InputStream arquivo = Files.newInputStream(caminho);
+                                String caminho = nomeArquivo;
+                                S3Reader s3 = new S3Reader();
+                                InputStream arquivo = s3.getFileFromS3("s3-hafu-bucket", caminho);
+
 
                                 LeitorExcel leitorExcel = new LeitorExcel();
                                 List<Escola> escolasExtraidas = leitorExcel.extrairEscolas(nomeArquivo, arquivo);

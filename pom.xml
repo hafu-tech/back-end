@@ -53,11 +53,13 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>5.3.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -69,6 +71,7 @@
             <artifactId>spring-jdbc</artifactId>
             <version>6.1.11</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -89,12 +92,17 @@
             <version>8.1.0</version>
         </dependency>
 
-
         <!-- Driver do servidor de banco SQLServer -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>12.8.1.jre11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>2.27.21</version>
         </dependency>
 
     </dependencies>
