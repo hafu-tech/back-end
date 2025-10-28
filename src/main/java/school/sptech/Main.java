@@ -3,6 +3,8 @@ package school.sptech;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm:ss");
         List<String> arquivosHoje = new ArrayList<>();
         boolean executando = true;
         DAO dao = new DAO();
@@ -40,6 +43,8 @@ public class Main {
                                 String caminho = nomeArquivo;
                                 S3Reader s3 = new S3Reader();
                                 InputStream arquivo = s3.getFileFromS3("s3-hafutech-bucket", caminho);
+                                LocalDateTime dataHora = LocalDateTime.now();
+                                String dataHoraFormatada = dataHora.format(formatter);
 
 
                                 LeitorExcel leitorExcel = new LeitorExcel();
@@ -48,7 +53,7 @@ public class Main {
                                 arquivo.close();
                                 dao.salvarLista(escolasExtraidas);
                                 arquivosHoje.add(nomeArquivo);
-                                System.out.println("Dados adicionados no banco!");
+                                System.out.println(dataHoraFormatada + ", foram adicionados " + escolasExtraidas.size() + " dados no banco!");
 
                             } catch (Exception e) {
                                 System.out.println(ANSI_RED + "Erro ao processar o arquivo: " + e.getMessage() + ANSI_RESET);
