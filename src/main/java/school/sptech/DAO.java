@@ -46,10 +46,9 @@ public class DAO {
     public void salvarLogIndividual(Log log) {
         jdbcTemplate.update("""
             INSERT INTO Log_historico_usuario
-            (data_hora, descricao)
-            VALUES (?, ?)
+            (descricao)
+            VALUES (?,)
         """,
-                log.getData(),
                 log.getDescricao()
         );
     }
