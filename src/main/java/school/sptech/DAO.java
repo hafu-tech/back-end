@@ -16,21 +16,15 @@ public class DAO {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void salvarLog(){
-        jdbcTemplate.update(
-                """INSERT INTO log values 
-                (data_hora_log, ) 
-        """)
-    }
-
     public void salvarLista(List<Escola> escolas) {
         for (Escola e : escolas) {
-            jdbcTemplate.update("""
+            jdbcTemplate.update(
+                """
                 INSERT INTO escola
                 (ano, id_municipio, id_escola, area, localizacao, rede,
                  inse_qtd_alunos, valor_inse, inse_classificacao2014, inse_classificacao2015)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
+                """,
                     e.getAno(),
                     e.getIdMunicipio(),
                     e.getIdEscola(),
