@@ -17,6 +17,7 @@ public class DAO {
     }
 
     public void salvarLista(List<Escola> escolas) {
+        int contador = 1;
         for (Escola e : escolas) {
             jdbcTemplate.update(
                 """
@@ -36,6 +37,21 @@ public class DAO {
                     e.getInseClassificacao2014(),
                     e.getInseClassificacao2015()
             );
+            Log log = new Log("Linha " + contador + " adicionada");
+            salvarLogIndividual(log);
+            contador++;
         }
     }
-}
+
+    public void salvarLogIndividual(Log log) {
+        jdbcTemplate.update("""
+            INSERT INTO Log_historico_usuario
+            (data_hora, descricao)
+            VALUES (?, ?)
+        """,
+                log.getData(),
+                log.getDescricao()
+        );
+    }
+        }
+
