@@ -47,7 +47,7 @@ public class DAO {
         jdbcTemplate.update("""
             INSERT INTO Log_historico_usuario
             (descricao)
-            VALUES (?,)
+            VALUES (?)
         """,
                 log.getDescricao()
         );
