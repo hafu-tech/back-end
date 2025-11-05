@@ -12,7 +12,7 @@ public class DAO {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/hafutech?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("root");
-        dataSource.setPassword("@Hdyk44339854");
+            dataSource.setPassword("@Hdyk44339854");
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -45,7 +45,7 @@ public class DAO {
 
     public void salvarLogIndividual(Log log) {
         jdbcTemplate.update("""
-            INSERT INTO Log_historico_usuario
+            INSERT INTO Log_sistema
             (descricao)
             VALUES (?)
         """,

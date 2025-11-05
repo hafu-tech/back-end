@@ -42,7 +42,7 @@ public class Main {
                             try {
                                 String caminho = nomeArquivo;
                                 S3Reader s3 = new S3Reader();
-                                InputStream arquivo = s3.getFileFromS3("s3-hafutech-bucket", caminho);
+                                InputStream arquivo = s3.getFileFromS3("s3-raw-hafu", caminho);
                                 LocalDateTime dataHora = LocalDateTime.now();
                                 String dataHoraFormatada = dataHora.format(formatter);
 
