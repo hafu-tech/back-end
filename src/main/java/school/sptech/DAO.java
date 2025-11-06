@@ -10,7 +10,7 @@ public class DAO {
     public DAO() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/hafutech?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://container-bd:3306/hafutech?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("root");
             dataSource.setPassword("@Hdyk44339854");
         jdbcTemplate = new JdbcTemplate(dataSource);
