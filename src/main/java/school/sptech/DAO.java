@@ -21,7 +21,7 @@ public class DAO {
         for (Escola e : escolas) {
             jdbcTemplate.update(
                 """
-                INSERT INTO escola
+                INSERT INTO Escola
                 (ano, id_municipio, id_escola, area, localizacao, rede,
                  inse_qtd_alunos, valor_inse, inse_classificacao2014, inse_classificacao2015)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
