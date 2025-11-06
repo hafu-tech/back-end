@@ -12,7 +12,7 @@ public class DAO {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://container-bd:3306/hafutech?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("root");
-            dataSource.setPassword("@Hdyk44339854");
+            dataSource.setPassword("@Hafu2025");
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
